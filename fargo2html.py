@@ -763,7 +763,7 @@ def render(url, folder, ura, zipit=False, upload=None, s3profile=None, s3bucket=
 def renderFromConfigFile():
     config_settings = ConfigParser()
     config_settings.read("/etc/fargo2html.cfg")
-    config_settings.read(os.path.join(os.environ["HOME"], ".fargorc"))
+    config_settings.read(os.path.join(os.environ["HOME"], ".fargo2htmlrc"))
     for section in config_settings.sections():
         print section
         outline_url = config_settings.get(section, "outline")

@@ -9,7 +9,8 @@ your Fargo outline. It will almost certainly not work for you out of the box.
 I did have an online form for testing this out, but it is down for now. I am
 working on putting it back in place and will try to add documentation then.
 
-See 
+See http://www.bsoi.st/fargoToXhtml for more information.
+
 Usage:
 -----
     import fargo2html
@@ -29,13 +30,13 @@ Two locations will be checked for config files:
 An example would look like this.
 
 
-[foo]
-outline = https://dl.dropbox.com/s/rand/foobar.opml
-folder = /home/bill/data/foo.bar
-upload = s3
-s3profile = foo
-s3bucket = www.foo.bar
-zip = True
+    [foo]
+    outline = https://dl.dropbox.com/s/rand/foobar.opml
+    folder = /home/bill/data/foo.bar
+    upload = s3
+    s3profile = foo
+    s3bucket = www.foo.bar
+    zip = True
 
 
 render()

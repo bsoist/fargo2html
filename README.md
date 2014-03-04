@@ -64,8 +64,7 @@ This will upload to a bucket named folder for the default s3 profile. NOTE: Requ
 
 To specify a profile and/or bucket use ...
     
-    fargo2html.render(my_outline, my_folder, "UPDATE", False, s3, bill,
-    www.foo.bar)
+    fargo2html.render(my_outline, my_folder, "UPDATE", False, s3, bill, www.foo.bar)
 
 This will upload to a bucket named www.foo.bar for profile bill.
 

@@ -86,7 +86,7 @@ To specify a folder to render to, use
 To upload to S3
     ./fargo2html.py --us3 -f/path/to/folder http://dl.dropbox.com/s/ran/myoutline.opml
 
-This will upload to a bucket named folder for the default s3 profile. NOTE: Requires folder2s3.py and boto and a valid boto config file. See the readme for folder2s3.py for more info.
+This will upload to a bucket named folder for the default s3 profile. NOTE: Requires folder2s3.py and boto and a valid boto config file. See the readme for https://github.com/bsoist/folder2s3 for more info.
 
 To specify a profile and/or bucket use ...
 

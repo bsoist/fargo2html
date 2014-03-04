@@ -20,23 +20,8 @@ Then call one of two functions.
 renderFromConfigFile()
 ----------------------
 This will render all outlines according to you config file. The options are the
-same as for command line or for calling render.
+same as for command line or for calling render. See "Using a Config File" below for more information.
 
-Two locations will be checked for config files:
-
-    /etc/fargo2html.cfg
-    ~/.fargo2htmrc
-
-An example would look like this.
-
-
-    [foo]
-    outline = https://dl.dropbox.com/s/rand/foobar.opml
-    folder = /home/bill/data/foo.bar
-    upload = s3
-    s3profile = foo
-    s3bucket = www.foo.bar
-    zip = True
 
 
 render()
@@ -103,4 +88,26 @@ NOTES:
 2. Empty the S3 bucket before you start
 3. Don't use the S3 option and then call folder2s3.upload() yourself with a replaceAll=True
 
+Using A Config File
+-------------------
+To run with a config file, you can do one of the following ...
+
+    import fargo2html
+    fargo2html.renderFromConfigFile()
+
+or
+
+    ./fargo2html.py -c
+
+The script will look for a system wide config file at `/etc/fargo2html.cfg` and a personal config file at `~/.fargo2htmlrc` Your personal settings with override the system wide settings.
+
+An example of the file would look like this.
+
+    [foo]
+    outline = https://dl.dropbox.com/s/rand/foobar.opml
+    folder = /home/bill/data/foo.bar
+    upload = s3
+    s3profile = foo
+    s3bucket = www.foo.bar
+    zip = True
 

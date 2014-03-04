@@ -1,5 +1,4 @@
-Fargo 2 xhtml
-==============
+#Fargo 2 xhtml
 
 Accepts a URL to a Fargo outline as first argument and will render it to html files.
 
@@ -11,21 +10,18 @@ working on putting it back in place and will try to add documentation then.
 
 See http://www.bsoi.st/fargoToXhtml for more information.
 
-Usage:
------
+##Usage:
     import fargo2html
 
 Then call one of two functions.
 
-renderFromConfigFile()
-----------------------
+###renderFromConfigFile()
 This will render all outlines according to you config file. The options are the
 same as for command line or for calling render. See "Using a Config File" below for more information.
 
 
 
-render()
---------
+###render()
 Then call fargo2html.upload() with at least three arguments.
     
     my_outline = http://dl.dropbox.com/s/ran/myoutline.opml
@@ -55,8 +51,8 @@ To specify a profile and/or bucket use ...
 This will upload to a bucket named www.foo.bar for profile bill.
 
 
-Command Line Examples:
----------------------
+##Command Line Examples:
+    
     ./fargo2html.py http://dl.dropbox.com/s/ran/myoutline.opml
 
 will render the outline to the folder ~/fargo_outlines/myoutline
@@ -88,8 +84,7 @@ NOTES:
 2. Empty the S3 bucket before you start
 3. Don't use the S3 option and then call folder2s3.upload() yourself with a replaceAll=True
 
-Using A Config File
--------------------
+##Using A Config File
 To run with a config file, you can do one of the following ...
 
     import fargo2html

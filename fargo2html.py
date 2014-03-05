@@ -346,7 +346,7 @@ def buildFeed(feed_title, feed_link, feed_desc, feed_posts, feed_path):
     )
     rss.write_xml(open(feed_path + "/rss.xml", "w+"))
 
-def parse(outline_url, my_folder):
+def parse(outline_url, my_folder, my_home_index_page):
     global DEBUG
     OPTIONS = {}
     TEMPLATES = {}
@@ -489,6 +489,11 @@ def parse(outline_url, my_folder):
             fh = open(file_name, "w+")
             print >>fh, new_data
             fh.close()
+            if os.path.basename(file_name) == my_home_index_page:
+                print file_name
+                fh = open(os.path.join(os.path.split(file_name)[0], "index.html"), "w+")
+                print >>fh, new_data
+                fh.close()
 
     blogHomeTitle = OPTIONS.get('blogHomeTitle','Home')
     posts = {"Home": []}
@@ -747,7 +752,7 @@ def parse(outline_url, my_folder):
 
     return base_folder
 
-def render(url, folder, ura, zipit=False, upload=None, s3profile=None, s3bucket=None):
+def render(url, folder, ura, zipit=False, upload=None, s3profile=None, s3bucket=None, index_file=None):
     if ura not in ["ABORT", "REPLACE", "UPDATE"]:
         raise Usage("second argument must be one of ABORT, REPLACE, or UPDATE")
     args = []
@@ -756,6 +761,7 @@ def render(url, folder, ura, zipit=False, upload=None, s3profile=None, s3bucket=
     if upload: args.append("-u%s" % upload)
     if s3profile: args.append("-p%s" % s3profile)
     if s3bucket: args.append("-b%s" % s3bucket)
+    if index_file: args.append("-i%s" % index_file)
     args += [url, ura]
     main(args)
 
@@ -787,7 +793,11 @@ def renderFromConfigFile():
             s3bucket = config_settings.get(section, "s3bucket")
         except:
             s3bucket = None
-        render(outline_url, folder, "UPDATE", zipIt, upload, s3profile, s3bucket)
+        try:
+            index_file = config_settings.get(section, "index_file")
+        except:
+            index_file = None
+        render(outline_url, folder, "UPDATE", zipIt, upload, s3profile, s3bucket, index_file)
 
 
 def main(argv=None):
@@ -795,15 +805,20 @@ def main(argv=None):
         argv = sys.argv[1:]
     try:
         try:
-            opts, args = getopt.getopt(argv, "hczu:p:b:f:", ["help","cfg","zip","upload=", "s3profile=", "s3bucket=", "folder="])
+            opts, args = getopt.getopt(argv, "hczu:p:b:f:i:", ["help","cfg","zip","upload=", "s3profile=", "s3bucket=", "folder=", "index="])
         except getopt.error, msg:
             raise Usage(msg)
         zipIt = False
         s3, s3profile, s3bucket, folder, cfg = None, None, None, None, None
+        home_index_page = None
         for option, value in opts:
             if option in ("-h", "--help"):
                 print __doc__
                 sys.exit()
+            # if from config file, ignore everything else, bail from this function to
+            # a function that will call it repeatedly
+            if option in ("-c", "--cfg"):
+                return renderFromConfigFile()
             if option in ("-z", "--zip"): zipIt = True
             if option in ("-u", "--upload"):
                 if value == 's3': s3 = True
@@ -814,10 +829,7 @@ def main(argv=None):
                 s3 = True
                 s3bucket = value
             if option in ("-f", "--folder"): folder = value
-            # if from config file, ignore everything else, bail from this function to
-            # a function that will call it repeatedly
-            if option in ("-c", "--cfg"):
-                return renderFromConfigFile()
+            if option in ("-i", "--index"): home_index_page = value
 
 
         try:
@@ -846,7 +858,7 @@ Type any other keys and press enter to quit.
             elif URA not in ["", "UPDATE"]:
                 sys.exit(1)
 
-        folder_parsed = parse(o_url, folder)
+        folder_parsed = parse(o_url, folder, home_index_page)
         if zipIt: zipdir(folder_parsed)
         if s3:
             s3profile = s3profile or "Credentials"

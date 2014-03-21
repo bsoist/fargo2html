@@ -375,7 +375,11 @@ def parse(outline_url, my_folder, my_home_index_page):
         else:
             first_word = node.text.split(' ')[0]
             if first_word in GLOSSARY_OPTIONS:
-                GLOSSARY.update(GLOSSARY_FUNCTIONS[first_word](node.text))
+                try:
+                    value = OPTIONS[first_word[1:]]
+                except:
+                    value = node.text
+                GLOSSARY.update(GLOSSARY_FUNCTIONS[first_word](value))
 
     for k,v in GLOSSARY.items():
         if type(v[0]) == type([]):
@@ -427,7 +431,11 @@ def parse(outline_url, my_folder, my_home_index_page):
                 if len(parts) < 2:
                     OPTIONS[option] = True
                 else:
-                    key, value = parts[0], ' '.join(parts[1:])[1:-1]
+                    key, value = parts[0], ' '.join(parts[1:])
+                    if value[0] == '[':
+                        value = random.choice([v.strip() for v in value[1:-1].split(',')])
+                    elif value[0] == '"':
+                        value = value[1:-1]
                     if value.lower() in ['true','false']:
                         OPTIONS[key] = bool(value)
                     else:

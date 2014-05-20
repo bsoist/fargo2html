@@ -196,7 +196,7 @@ def subData(d,glossary):
     return d
 
 def removePunc(data):
-    for punc in '!:&/#,':
+    for punc in '!:&/#,"':
         data = re.sub(punc,'',data)
     for punc in "?.,'":
         data = re.sub("\%s" % punc, '', data)
@@ -668,7 +668,7 @@ def parse(outline_url, my_folder, my_home_index_page):
                                 save_file = True
                             if save_file:
                                 fh = open(file_name, "w+")
-                                print >>fh, new_data
+                                print >>fh, new_data.encode('utf-16')
                                 fh.close()
 
             if not ycals:
@@ -754,7 +754,7 @@ def parse(outline_url, my_folder, my_home_index_page):
                 save_file = True
             if save_file:
                 fh = open(file_name, "w+")
-                print >>fh, new_data
+                print >>fh, new_data.encode('utf-16')
                 fh.close()
             fh.close()
 

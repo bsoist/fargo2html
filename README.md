@@ -22,7 +22,7 @@ same as for command line or for calling render. See "Using a Config File" below 
 
 
 ###render()
-Then call fargo2html.upload() with at least three arguments.
+Then call fargo2html.render() with at least three arguments.
     
     my_outline = http://dl.dropbox.com/s/ran/myoutline.opml
     my_folder = /home/bill/foobar
